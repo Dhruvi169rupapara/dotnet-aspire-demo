@@ -43,6 +43,18 @@ namespace StudentAspireCrud.Web
             return false;
         }
 
+        public async Task<Student> GetStudentById(string studentId)
+        {
+            var response = await _httpClient.GetFromJsonAsync<Student>($"/api/student/{studentId}");
+            return response;
+        }
+
+        public async Task<Student> UpdateStudent(long studentId, Student student)
+        {
+            var response = await _httpClient.PutAsJsonAsync<Student>($"/api/student/Edit/{studentId}", student);
+            return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Student>() : null ;
+        }
+
         public class Student
         {
             public int StudentId { get; set; }

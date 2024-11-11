@@ -28,7 +28,7 @@
                     <td>@item.FirstName</td>
                     <td>@item.LastName</td>
                     <td>@item.Age</td>
-                    <td class="text-primary" style="cursor: pointer" @onclick='() => HandleDelete(item.StudentId)'>DELETE</td>
+                    <td class="text-primary"><span style="cursor: pointer" class="me-3" @onclick='() => HandleDelete(item.StudentId)'>DELETE</span><span style="cursor: pointer" @onclick='() => HandleEdit(item.StudentId)'>EDIT</span></td>
                 </tr>
             }
         </tbody>
@@ -46,10 +46,15 @@
     private async Task HandleDelete(int studentId)
     {
         var response = await StudentApi.DeleteStudent(studentId); 
+        await GetAllStudents();
     }
 
     private async Task GetAllStudents()
     {
         students = await StudentApi.GetAll();
+    }
+
+    private void HandleEdit(int studentId){
+        NavigationManager.NavigateTo($"/edit-student/{studentId}");
     }
 }

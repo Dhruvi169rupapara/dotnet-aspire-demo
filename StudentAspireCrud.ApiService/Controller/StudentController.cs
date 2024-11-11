@@ -23,6 +23,17 @@ namespace StudentAspireCrud.ApiService.Controller
             return await _studentService.GetAllStudentsAsync();
         }
 
+        [HttpGet("{studentId}")]
+        public async Task<IActionResult> GetStudentById(int studentId)
+        {
+            var student = await _studentService.GetStudentByIdAsync(studentId);
+            if (student == null)
+            {
+                return BadRequest();
+            };
+            return Ok(student);
+        }
+
         [HttpPost("Add")]
         public async Task<IActionResult> AddStudents(Student student)
         {
@@ -59,6 +70,24 @@ namespace StudentAspireCrud.ApiService.Controller
             {
                 return NotFound(new { Message = "Student not found." });
             }
+        }
+
+        [HttpPut("Edit/{studentId}")]
+        public async Task<IActionResult> UpdateStudent(long studentId, Student student)
+        {
+            if (studentId == null)
+            {
+                return BadRequest();
+            }   
+
+            var updatedStudent = await _studentService.UpdateStudentAsync(studentId, student);
+
+            if (updatedStudent == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedStudent);
         }
     }
 }
