@@ -23,3 +23,14 @@ h1:focus {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+body {
+    background-color: #ececec;
+    margin: 0;
+    padding: 0;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

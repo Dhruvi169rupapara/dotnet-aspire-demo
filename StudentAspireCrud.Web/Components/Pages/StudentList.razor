@@ -5,34 +5,42 @@
 @rendermode InteractiveServer
 
 <div class="my-3">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <h1>Student List</h1>
-        <button class="btn btn-dark px-4 py-2" @onclick='() => NavigationManager.NavigateTo("/add-student")'>Add Student</button>
+    <div class="bg-white p-3 rounded-3 mb-4">
+        <div class="d-flex align-items-center justify-content-between">
+            <h3>Student List</h3>
+            <button class="btn btn-dark px-4 py-2" @onclick='() => NavigationManager.NavigateTo("/add-student")'>Add Student</button>
+        </div>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Age</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in students)
-            {
+    <div class="bg-white px-4 py-2 rounded-3">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@item.StudentId</td>
-                    <td>@item.FirstName</td>
-                    <td>@item.LastName</td>
-                    <td>@item.Age</td>
-                    <td class="text-primary"><span style="cursor: pointer" class="me-3" @onclick='() => HandleDelete(item.StudentId)'>DELETE</span><span style="cursor: pointer" @onclick='() => HandleEdit(item.StudentId)'>EDIT</span></td>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in students)
+                {
+                    <tr>
+                        <td>@item.StudentId</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Age</td>
+                        <td class="text-primary">
+                            <span class="me-3 cursor-pointer" title="edit" @onclick='() => HandleEdit(item.StudentId)'><img src="icon/edit.png" alt="edit" /></span>
+                            <span class="cursor-pointer" title="delete" @onclick='() => HandleDelete(item.StudentId)'><img src="icon/delete.png" alt="delete" /></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
 </div>
 
 @code {

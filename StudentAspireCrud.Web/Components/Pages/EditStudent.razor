@@ -1,4 +1,4 @@
-﻿@page "/add-student"
+﻿@page "/edit-student/{studentId}"
 @using static StudentAspireCrud.Web.StudentApiClient
 @inject StudentApiClient StudentApi
 @rendermode InteractiveServer
@@ -10,7 +10,7 @@
         <div class="bg-white p-2 rounded-3 mb-3 w-50">
             <p class="m-0 d-flex align-items-center gap-3">
                 <span class="m-0" @onclick='() => NavigationManager.NavigateTo("/")'><img class="cursor-pointer" src="icon/bback.png" /></span>
-                <span class="m-0 fw-bold fs-5">Add student</span>
+                <span class="m-0 fw-bold fs-5">Update student</span>
             </p>
         </div>
         <div class="bg-white rounded-3 p-4 w-50">
@@ -28,8 +28,8 @@
                     <input type="text" class="form-control" placeholder="Age" @bind-value="_addStudent.Age" />
                     <ValidationMessage For="@(() => _addStudent.Age)" />
                 </div>
-                <div class="text-center"> 
-                    <button class="btn btn-dark w-100 py-2 fw-bold" type="submit">Submit</button>
+                <div class="text-center">
+                    <button class="btn btn-dark w-100 py-2" type="submit">Update</button>
                 </div>
             </EditForm>
         </div>
@@ -37,14 +37,32 @@
 </div>
 
 @code {
+    [Parameter]
+    public string studentId { get; set; }
+    Student _student = new();
     AddStudentModel _addStudent = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(studentId))
+        {
+            _student = await StudentApi.GetStudentById(studentId);
+            if (_student != null)
+            {
+                _addStudent.FirstName = _student.FirstName;
+                _addStudent.LastName = _student.LastName;
+                _addStudent.Age = _student.Age.ToString();
+            }
+        }
+    }
 
     private async Task HandleSubmit()
     {
-        var response = await StudentApi.AddStudent(_addStudent);
-        if(response != null)
-        {
-            NavigationManager.NavigateTo("/");
-        }
+        // var response = await StudentApi.UpdateStudent(_student.StudentId, _addStudent);
+        // if (response != null)
+        // {
+        //     NavigationManager.NavigateTo("/");
+        // }
+        Console.WriteLine("Edit submit");
     }
 }
